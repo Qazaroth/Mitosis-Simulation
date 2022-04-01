@@ -15,7 +15,7 @@ Cell::Cell(sf::Window &window)
 	int r = randomFloat(100, 255);
 	int b = randomFloat(100, 255);
 
-	sf::Color co(r, 0, b, 255);
+	sf::Color co(r, 0, b, 100);
 
 	this->c = co;
 }
@@ -42,7 +42,9 @@ bool Cell::clicked(sf::Vector2i kos)
 
 Cell Cell::mitosis()
 {
-	Cell a(this->pos, this->r / 2, this->c);
+	float offset = randomFloat(-this->r, this->r);
+	sf::Vector2f newpos(this->pos.x + offset, this->pos.y);
+	Cell a(newpos, this->r * 0.8, this->c);
 	return a;
 }
 

@@ -20,12 +20,27 @@ unsigned int frames = 0;
 
 int main()
 {
+	srand(time(NULL));
+
 	sf::RenderWindow window(sf::VideoMode(800, 800), title, styleFlag);
 	window.setFramerateLimit(FRAMECAP);
 
 	for (int i = 0; i < MAX_CELL_COUNT; i++)
 	{
-		Cell a(window);
+		sf::Vector2u size = window.getSize();
+
+		unsigned int width = size.x;
+		unsigned int height = size.y;
+
+		int r = randomFloat(100, 255);
+		int b = randomFloat(100, 255);
+
+		int x = randomInt(0, width);
+		int y = randomInt(0, height);
+
+		sf::Color c(r, 0, b, 100);
+
+		Cell a(sf::Vector2f(x, y), 60.0f, c);
 		cells.push_back(a);
 	}
 
@@ -33,7 +48,7 @@ int main()
 	{
 		sf::Event windowEvent;
 
-		window.clear(sf::Color(51, 51, 51, 255));
+		window.clear(sf::Color(200, 200, 200, 255));
 		for (int i = 0; i < cells.size(); i++)
 		{
 			cells[i].move();
@@ -53,11 +68,13 @@ int main()
 				{
 					sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-					for (int i = 0; i < cells.size(); i++)
+					for (int i = cells.size(); i >= 0; i--)
 					{
 						if (cells[i].clicked(mousePos))
 						{
-							print("LOL");
+							cells.push_back(cells[i].mitosis());
+							cells.push_back(cells[i].mitosis());
+							cells.erase(std::next(cells.begin(), i));
 						}
 					}
 				}

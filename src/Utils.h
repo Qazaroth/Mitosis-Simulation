@@ -1,10 +1,13 @@
 #pragma once
 
+#include <ctime>
 #include <random>
+
 
 inline int static randomInt(int min, int max)
 {
-	return min + (std::rand() % (max - min + 1));
+	//srand(time(0));
+	return (rand() % max) + min;//min + (std::rand() % (max - min + 1));
 }
 
 static float dist(const sf::Vector2f p1, const sf::Vector2f p2)
